@@ -1,0 +1,30 @@
+{
+  "name": "nodejs-azure-signin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leroylim20/nodejs-azure-signin.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leroylim20/nodejs-azure-signin/issues"
+  },
+  "homepage": "https://github.com/leroylim20/nodejs-azure-signin#readme",
+  "dependencies": {
+    "@azure/identity": "^1.2.3",
+    "@azure/keyvault-secrets": "^4.1.0",
+    "express": "^4.17.1",
+    "keytar": "^7.4.0"
+  },
+  "devDependencies": {
+    "@azure/msal-node": "^1.0.0"
+  }
+}
