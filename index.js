@@ -16,17 +16,11 @@ const app = express();
 
 app.listen(SERVER_PORT, () => console.log(`Msal Node Auth Code Sample app listening on port ${SERVER_PORT}!`))
 
-const CLIENT_SECRET = new SecretClient(KEY_VAULT_URL, new DefaultAzureCredential()).getSecret(SECRET_NAME)
-    .then((res) => {
-        return res;
-    })
-    .catch((error) => console.log(JSON.stringify(error)));
-
 const config = {
     auth: {
         clientId: CLIENT_ID,
         authority: "https://login.microsoftonline.com/" + TENANT_ID,
-        clientSecret: CLIENT_SECRET
+        clientSecret: ""
     },
     system: {
         loggerOptions: {
@@ -39,14 +33,20 @@ const config = {
     }
 };
 
+new SecretClient(KEY_VAULT_URL, new DefaultAzureCredential()).getSecret(SECRET_NAME)
+    .then((res) => {
+        config.auth.clientSecret = res.value;
+        // Create msal application object
+        global.cca = new msal.ConfidentialClientApplication(config);
+        return res;
+    })
+    .catch((error) => console.log(JSON.stringify(error)));
 
-// Create msal application object
-const cca = new msal.ConfidentialClientApplication(config);
 
 app.get('/', (req, res) => {
     const authCodeUrlParameters = {
         scopes: ["user.read"],
-        redirectUri: "http://localhost:3000/redirect",
+        redirectUri: req.protocol + "://" + req.get("host") + "/redirect",
     };
 
     // get url to sign user in and consent to scopes needed for application
